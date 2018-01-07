@@ -1,0 +1,35 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center;" *ngIf="!userId">
+    <h1>
+         
+        <div *ngIf="userId">Welcome {{username}}</div>
+    </h1>
+    <div *ngIf="!userId" class="form-box">
+
+      
+       
+        <form #chatInfoForm="ngForm" (ngSubmit)="joinRoom()">
+            <label for="name">Name</label>
+            <input type="text" (blur) ='onUserNameBlur()' (keyup) ='onUserNameKeyUp();' class="form-control" id="name" required [(ngModel)]="username" name="name" #name="ngModel">
+            
+            <label for="name"></label>
+          
+          
+            <div class="form-group">
+                    <label for="sel1">Department</label>
+                    <select class="form-control" [(ngModel)]="department" [disabled]="isDisbaled" required  id="department" name="department" >
+                      <option value='House Keeping'>House Keeping</option>
+                      <option value='Administarion'>Administarion</option>
+                      <option value='Front Desk'>Front Desk</option>
+                      <option value='Store'>Store</option>
+                    </select>
+                  </div>
+            <hr/>
+  
+            <button type="submit" class="btn  btn-primary " [disabled]="!chatInfoForm.form.valid">Get Started</button>
+  
+        </form>
+    </div>
+</div>
+<cust-issue *ngIf="userId && isAdmin()" (showChatEvent)="showChat($event);"></cust-issue>
+<ng-chat *ngIf="userId" [adapter]="adapter" [userId]="userId" [historyEnabled]="false" [userNmae]="username"></ng-chat>

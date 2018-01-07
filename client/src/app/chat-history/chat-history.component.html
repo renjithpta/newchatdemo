@@ -1,0 +1,58 @@
+<div class="chat">
+
+    <div class="chat-history">
+
+        <div *ngIf="showLoader" style="margin-left: 40%;margin-top: 15%;">
+
+            <img src="assets/loader.svg" />
+        </div>
+
+        <ng-container *ngFor="let chatHis of chatHistories;let last=last;">
+            <div class="chat-message clearfix" style="border: 2px solid #dedede;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0">
+
+                <div class="message-icon" style="cursor: pointer;
+                        width: 60px;
+                        height: 60px;
+                        float: left;
+                        position: relative;
+                        margin-left: 20px;">
+                    <img *ngIf="chatHis.msgFrom !='System'" style="border-radius: 30px;
+                        width: 100%;
+                        height: 100%;" class="photo-icon" src="assets/user.png" />
+                    <img *ngIf="chatHis.msgFrom === 'System'" style="border-radius: 30px;
+                        width: 100%;
+                        height: 100%; float: left;
+                        max-width: 60px;
+                        width: 100%;
+                        margin-right: 20px;
+                        border-radius: 50%;" class="photo-icon" src="assets/chatbot-oval-512.png">
+
+                </div>
+
+                <div class="chat-message-content clearfix">
+
+                    <span class="chat-time">{{chatHis.createdOn | timeAgo  }}</span>
+
+                    <h5 style="font-size:10px;font-weight:400;font-style: italic">{{chatHis.msgFrom}}</h5>
+
+                    <p style="font-szie:14px">{{chatHis.msg}}</p>
+
+                </div>
+                <!-- end chat-message-content -->
+
+            </div>
+            <!-- end chat-message -->
+
+            <hr *ngIf="!last" style="margin-left:-22px;">
+
+        </ng-container>
+        <!-- end chat-message -->
+
+    </div>
+
+</div>
+<!-- end chat-history -->

@@ -1,0 +1,86 @@
+<div class="col-xxxl-3 col-xxl-4 col-lg-7 col-md-6 panel">
+    <div class="panel-tittle">
+        <div class="">
+            <h3 class="card-title" style="">Pending Issues</h3>
+        </div>
+    </div>
+    <div class="feed-message" *ngFor="let issue of custIssue">
+
+        <div *ngIf="showLoader" style="margin-left: 40%;margin-top: 15%;">
+
+            <img src="assets/loader.svg" />
+        </div>
+        <div class="message-icon">
+            <img class="photo-icon" src="assets/user.png">
+        </div>
+
+        <div class="text-block text-message">
+            <div class="message-header">
+                <span class="author" style="">   {{issue.customerName}}</span>
+            </div>
+            <div class="message-content line-clamp line-clamp-2" style="">
+                {{issue.issueDetails}}
+            </div>
+            <!---->
+            <div class="message-time" style="">
+
+                {{issue.createdOn | timeAgo }}
+
+                <div id="hist" class="floating-chat enter" style="
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: -moz-linear-gradient(-45deg, #183850 0, #183850 25%, #192C46 50%, #22254C 75%, #22254C 100%);
+                background: -webkit-linear-gradient(-45deg, #183850 0, #183850 25%, #192C46 50%, #22254C 75%, #22254C 100%);
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                float: right;" (click)="showChatHistory(model1,issue.chatHistoryId);">
+                    <i class="fa fa-history" aria-hidden="true"></i>
+                </div>
+
+                <div id="chattdiv" class="floating-chat enter" style="
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: -moz-linear-gradient(-45deg, #183850 0, #183850 25%, #192C46 50%, #22254C 75%, #22254C 100%);
+                background: -webkit-linear-gradient(-45deg, #183850 0, #183850 25%, #192C46 50%, #22254C 75%, #22254C 100%);
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                float: right;margin-right:10px" (click)="showChatWindow(issue);">
+                    <i class="fa fa-comments" aria-hidden="true"></i>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<app-modal #modal1>
+    <div class="app-modal-header">
+        <strong> Chat History </strong> <a class="boxclose" id="boxclose" style="float:right;cursor:pointer" (click)="modal1.hide()"> X</a>
+    </div>
+    <div class="app-modal-body">
+        <chat-hist [chatId]='chatId'></chat-hist>
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-default" (click)="modal1.hide()">Close</button>
+
+    </div>
+</app-modal>
+<app-modal #modal2>
+    <div class="app-modal-body">
+        <user-list></user-list>
+    </div>
+</app-modal>

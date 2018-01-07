@@ -1,0 +1,50 @@
+[{
+        "issueId": 1,
+        "issueDetails": "Towel required.But not got yet",
+        "customerName": "User1",
+        "createdOn": "2018-05-01 11:10:09",
+        "chatHistoryId": 1
+
+    },
+    {
+
+        "issueId": 101,
+        "issueDetails": "Soap box  required.But not got yet",
+        "customerName": "User1",
+        "createdOn": "2018-04-01 11:10:09",
+        "chatHistoryId": 101
+    },
+    {
+
+        "issueId": 101,
+        "issueDetails": "Soap box  required.But not got yet",
+        "customerName": "User1",
+        "createdOn": "2018-04-01 11:10:09",
+        "chatHistoryId": 101
+    },
+
+    {
+
+        "issueId": 101,
+        "issueDetails": "Soap box  required.But not got yet",
+        "customerName": "User1",
+        "createdOn": "2018-04-01 11:10:09",
+        "chatHistoryId": 101
+    },
+    {
+
+        "issueId": 101,
+        "issueDetails": "Soap box  required.But not got yet",
+        "customerName": "User1",
+        "createdOn": "2018-04-01 11:10:09",
+        "chatHistoryId": 101
+    },
+    {
+
+        "issueId": 101,
+        "issueDetails": "Soap box  required.But not got yet",
+        "customerName": "User1",
+        "createdOn": "2018-04-01 11:10:09",
+        "chatHistoryId": 101
+    }
+]

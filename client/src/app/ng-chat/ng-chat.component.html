@@ -1,0 +1,90 @@
+<div id="ng-chat" [hidden]="!showChat">
+    <div id="ng-chat-people" [ngClass]="{'ng-chat-people-collapsed':isCollapsed}">
+        <div href="javascript:void(0);" class="ng-chat-title shadowed" (click)="onChatTitleClicked($event)">
+
+            <i class="fa fa-angle-down" *ngIf="!isCollapsed"></i>
+            <i class="fa fa-angle-up" *ngIf="isCollapsed"></i>
+            <span>
+                {{title}}
+            </span>
+            <span><select style="float:right;margin-top:5px;margin-bottom-5px;" (click)="onStatusChange($event);" (change) ="onStatusChange($event);" [(ngModel)]="status">
+			<option value="0"> Online</option>
+			<option value="1"> Busy </option>
+			<option value="2"> Away </option>
+			</select></span>
+        </div>
+
+
+
+        <input id="ng-chat-search_friend" type="search" placeholder="Search" [(ngModel)]="searchInput" />
+
+
+        <ul class="css-treeview" *ngIf="filteredUsers">
+            <li style="margin-left:-15px" *ngFor="let filtereduserlist of filteredUsers | groupBy:'dept'; let first = first;">
+                <input type="checkbox" [checked]='first' style="position:absolute;opacity:0;width:100%;z-index:999;cursor:pointer;" />
+                <a href="javaScript:void(0)">
+                    <span class="icon node-icon glyphicon fa fa-users glyphicon-user" style="margin-right:6px"></span>{{filtereduserlist.key}}</a>
+                <ul id="ng-chat-users" *ngIf="!isCollapsed" style="margin-left: 15px;">
+                    <li *ngFor="let user of filtereduserlist.value" (click)="openChatWindow(user,'manual')">
+                        <div *ngIf="!user.avatar" class="icon-wrapper">
+                            <i class="user-icon"></i>
+                        </div>
+                        <img *ngIf="user.avatar" alt="" class="avatar" height="30" width="30" src="{{user.avatar}}" />
+                        <strong title="{{user.displayName}}">{{user.displayName}}</strong>
+                        <span [ngClass]="{'ng-chat-user-status': true, 'online': user.status == UserStatus.Online, 'busy': user.status == UserStatus.Busy, 'away': user.status == UserStatus.Away, 'offline': user.status == UserStatus.Offline}" title="{{UserStatus[user.status]}}"></span>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+
+        <div *ngFor="let window of windows; let i = index" [ngClass]="{'ng-chat-window': true, 'ng-chat-window-collapsed': window.isCollapsed}" [ngStyle]="{'right': friendsListWidth + 20 + windowSizeFactor * i + 'px'}">
+            <ng-container *ngIf="window.isCollapsed">
+                <div class="ng-chat-title chat_style" (click)="onChatWindowClicked(window)">
+                    <strong title="{{window.chattingTo.displayName}}">
+                                
+                       {{window.chattingTo.displayName}}
+                </strong>
+                    <span *ngIf="unreadMessagesTotal(window).length > 0" class="ng-chat-unread-messages-count">{{unreadMessagesTotal(window)}}</span>
+
+                    <a href="javascript:void(0);" class="ng-chat-close" (click)="onCloseChatWindow(window)">X</a>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!window.isCollapsed">
+                <div class="ng-chat-title  chat_style" (click)="onChatWindowClicked(window)">
+                    <strong title="{{window.chattingTo.displayName}}">
+                            <i class="fa fa-user" [ngClass]="{'online': window.chattingTo.status === UserStatus.Online, 'busy':  window.chattingTo.status  == UserStatus.Busy, 'away':  window.chattingTo.status == UserStatus.Away, 'offline': window.chattingTo.status  == UserStatus.Offline}" *ngIf="!window.isCollapsed"></i>
+                        {{window.chattingTo.displayName}}
+                </strong>
+                    <span *ngIf="unreadMessagesTotal(window).length > 0" class="ng-chat-unread-messages-count">{{unreadMessagesTotal(window)}}</span>
+                    <span *ngIf='window.isTyping' style="margin:2px;font-weight:300">typing</span>
+                    <span *ngIf='window.isOff' style="margin:2px;font-weight:300"><strong>Offline</strong></span>
+                    <a href="javascript:void(0);" class="ng-chat-close" (click)="onCloseChatWindow(window)">X</a>
+                </div>
+                <div #chatMessages class="ng-chat-messages">
+                    <div *ngIf="window.isLoadingHistory" class="ng-chat-loading-wrapper">
+                        <div class="loader">Loading history...</div>
+                    </div>
+
+                    <div *ngFor="let message of window.messages; let i = index" [ngClass]="{'ng-chat-message': true, 'ng-chat-message-received': message.fromId != userId}">
+                        <div *ngIf="!window.chattingTo.avatar && isAvatarVisible(window, message, i)" class="icon-wrapper">
+                            <i class="user-icon"></i>
+                        </div>
+                        <img *ngIf="window.chattingTo.avatar && isAvatarVisible(window, message, i)" alt="" class="avatar" height="30" width="30" [src]="window.chattingTo.avatar" />
+                        <span>
+                        <span class="userMsg" [innerHTML]="message.message"> </span>
+                        <br/>
+                        <small class="pull-right text-muted timemsg"> <span class="glyphicon glyphicon-time"></span>{{ message?.updated_at |date:'short'}}</small>
+                        </span>
+                    </div>
+                </div>
+
+                <input [(ngModel)]="window.newMessage" type="text" (keypress)="onChatInputTyped($event, window)" [placeholder]="messagePlaceholder" (blur)="toggleWindowFocus(window)" (focus)="toggleWindowFocus(window)" />
+
+
+            </ng-container>
+        </div>
+    </div>
+    <audio #audioOption>
+    <source src='assets/sounds/popup.mp3' type="audio/mp3">
+ </audio>

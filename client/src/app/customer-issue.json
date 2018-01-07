@@ -1,0 +1,16 @@
+[
+    {
+        "issueId": 101,
+        "issueDetails": "Towel required.But not got yet",
+        "customerName": "User1",
+        "chatHistoryId": "12",
+        
+    },
+    {
+        
+        "issueId": 102,
+        "issueDetails": "Soap box  required.But not got yet",
+        "customerName": "User1",
+        "chatHistoryId": "12",
+    }
+]
